@@ -22,11 +22,35 @@ public class Deque<T> {
     }
 
     public T removeFirst() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Deque 가 비어 있습니다.");
+        }
+
         return this.list.removeFirst();
     }
 
     public T removeLast() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Deque 가 비어 있습니다.");
+        }
+
         return this.list.removeLast();
+    }
+
+    public T peekFirst() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Deque 가 비어 있습니다.");
+        }
+
+        return this.list.getFirst();
+    }
+
+    public T peekLast() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Deque 가 비어 있습니다.");
+        }
+
+        return this.list.getLast();
     }
 
     public void printAll() {
