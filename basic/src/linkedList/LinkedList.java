@@ -1,0 +1,197 @@
+package linkedList;
+
+public class LinkedList<T> {
+
+    private Node<T> head; // 첫 번째 노드
+    private Node<T> tail; // 마지막 노드
+    private int size;     // 리스트 크기
+
+    public LinkedList() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return this.size;
+    }
+
+    public void addFirst(T data) {
+        Node<T> newNode = new Node<>(data);
+
+        if (isEmpty()) {
+            this.head = this.tail = newNode;
+        } else {
+            newNode.next = this.head;
+            this.head = newNode;
+        }
+
+        this.size++;
+    }
+
+    public void addLast(T data) {
+        Node<T> lastNode = new Node<>(data);
+
+        if (isEmpty()) {
+            this.head = this.tail = lastNode;
+        } else {
+            this.tail.next = lastNode;
+            this.tail = lastNode;
+        }
+
+        size++;
+    }
+
+    public T removeFirst() {
+        if (isEmpty()) {
+            throw new IllegalStateException("리스트가 비어있어 제거할 수 없습니다.");
+        }
+
+        T deletedData = this.head.data;
+        if (this.size == 1) {
+            this.head = this.tail = null;
+        } else {
+            this.head = this.head.next;
+        }
+
+        this.size--;
+
+        return deletedData;
+    }
+
+    public T removeLast() {
+        if (isEmpty()) {
+            throw new IllegalStateException("리스트가 비어있어 제거할 수 없습니다.");
+        }
+
+        T deletedData = this.tail.data;
+
+        if (this.size == 1) {
+            this.head = this.tail = null;
+        } else {
+            Node<T> currentNode = this.head;
+
+            while (currentNode.next != this.tail) {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = null;
+            this.tail = currentNode;
+        }
+
+        this.size--;
+
+        return deletedData;
+    }
+
+    public void add(int index, T data) {
+        if (index > this.size || index < 0) {
+            throw new IndexOutOfBoundsException("범위를 벗어났습니다.");
+        }
+
+        if (index == 0) { // 첫 위치에 삽입할 때
+            addFirst(data);
+        } else if (index == size) { // 마지막 위치에 삽입할 때
+            addLast(data);
+        } else {
+            Node<T> newNode = new Node<>(data);
+            Node<T> currentNode = this.head;
+
+            for (int i = 0; i < index - 1; i++) {
+                currentNode = currentNode.next;
+            }
+
+            newNode.next = currentNode.next;
+            currentNode.next = newNode;
+
+            this.size++;
+        }
+    }
+
+    public T remove(int index) {
+        if (index >= this.size || index < 0) {
+            throw new IndexOutOfBoundsException("범위를 벗어났습니다.");
+        }
+
+        if (index == 0) { // 첫 번째 노드 삭제
+           return removeFirst();
+        } else if (index == size - 1) {
+            return removeLast();
+        } else {
+            Node<T> currentNode = this.head;
+
+            for (int i = 0; i < index - 1; i++) {
+                // 중요!! currentNode.next 가 실제로 제거될 대상이다.
+                currentNode = currentNode.next;
+            }
+
+            T deletedData = currentNode.next.data; // 제거할 노드의 데이터
+            currentNode.next =  currentNode.next.next;
+
+            this.size--;
+
+            return deletedData;
+        }
+    }
+
+    public T getFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        return this.head.data;
+    }
+
+    public T getLast() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        return this.tail.data;
+    }
+
+    public T get(int index) {
+        if (index >= this.size || index < 0) {
+            throw new IndexOutOfBoundsException("범위를 벗어났습니다.");
+        }
+
+        if (index == 0) {
+            return getFirst();
+        } else if (index == size - 1) {
+            return getLast();
+        } else {
+            Node<T> currentNode = this.head;
+            for (int i = 0; i < index; i++) {
+                currentNode = currentNode.next;
+            }
+
+            return currentNode.data;
+        }
+    }
+
+    public void clear() {
+        this.head = this.tail = null;
+        this.size = 0;
+    }
+
+    public void printAll() {
+        Node<T> currentNode = this.head;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("linked List = [");
+
+        while (currentNode != null) {
+            sb.append(currentNode.data);
+            currentNode = currentNode.next;
+            if (currentNode != null) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+
+        System.out.println(sb);
+    }
+}
