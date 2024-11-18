@@ -19,7 +19,8 @@ public class LinkedListTest {
         System.out.println("removeLast() = " + linkedList.removeLast());
 
         System.out.println("remove(1) = " + linkedList.remove(1));
-
+        linkedList.printAll();
+        linkedList.clear();
         linkedList.printAll();
     }
 }

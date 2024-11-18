@@ -111,6 +111,11 @@ public class LinkedList<T> {
         }
     }
 
+    // 데이터만 입력할 경우 기본적으로 맨 뒤에 데이터 삽입
+    public void add(T data) {
+        addLast(data);
+    }
+
     public T remove(int index) {
         if (index >= this.size || index < 0) {
             throw new IndexOutOfBoundsException("범위를 벗어났습니다.");
@@ -177,21 +182,37 @@ public class LinkedList<T> {
         this.size = 0;
     }
 
-    public void printAll() {
+    // 메모리 누수를 해결하기 위한 clear 메서드 추가
+    public void safeClear() {
         Node<T> currentNode = this.head;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("linked List = [");
-
         while (currentNode != null) {
-            sb.append(currentNode.data);
-            currentNode = currentNode.next;
-            if (currentNode != null) {
-                sb.append(", ");
-            }
+            Node<T> nextNode = currentNode.next;
+            currentNode.next = null; // 명시적인 참조 해제
+            currentNode = nextNode;
         }
-        sb.append("]");
 
+        this.head = this.tail = null;
+        this.size = 0;
+    }
+
+    public void printAll() {
+        StringBuilder sb = new StringBuilder();
+        if (isEmpty()) {
+            sb.append("linked List is Empty!");
+        } else {
+            Node<T> currentNode = this.head;
+
+            sb.append("linked List = [");
+
+            while (currentNode != null) {
+                sb.append(currentNode.data);
+                currentNode = currentNode.next;
+                if (currentNode != null) {
+                    sb.append(", ");
+                }
+            }
+            sb.append("]");
+        }
         System.out.println(sb);
     }
 }
