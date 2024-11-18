@@ -21,14 +21,14 @@ public class Stack<T> {
 
     public T pop() {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            throw new IllegalStateException("스택이 비어 있습니다.");
         }
         return list.removeFirst();
     }
 
     public T peek() {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            throw new IllegalStateException("스택이 비어 있습니다.");
         }
         return list.getFirst();
     }

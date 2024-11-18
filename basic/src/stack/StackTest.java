@@ -12,5 +12,12 @@ public class StackTest {
 
         System.out.println("pop = " + pop);
         System.out.println("peek = " + peek);
+
+        stack.pop();
+        stack.pop();
+
+        System.out.println("isEmpty = " + stack.isEmpty());
+
+        stack.pop();
     }
 }
