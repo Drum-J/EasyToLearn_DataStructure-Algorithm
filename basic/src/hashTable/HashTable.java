@@ -4,7 +4,7 @@ import linkedList.DoublyLinkedList;
 import node.Node;
 
 public class HashTable<K, V> {
-    private DoublyLinkedList<HashData<K, V>>[] table;
+    DoublyLinkedList<HashData<K, V>>[] table;
 
     public HashTable() {
         this.table = new DoublyLinkedList[10];

@@ -20,7 +20,8 @@ public class HashTableTest {
         String get1 = hashTable.get(1);
         System.out.println("get1 = " + get1);
 
-        hashTable.remove(1);
+        String remove = hashTable.remove(1);
+        System.out.println("remove = " + remove);
         String get11 = hashTable.get(1);
         System.out.println("get11 = " + get11);
 
