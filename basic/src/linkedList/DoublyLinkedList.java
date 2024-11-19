@@ -220,4 +220,8 @@ public class DoublyLinkedList<T> {
         }
         System.out.println(sb);
     }
+
+    public Node<T> getHead() {
+        return this.head;
+    }
 }
