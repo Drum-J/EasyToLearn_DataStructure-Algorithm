@@ -9,7 +9,8 @@ public class SortTest {
         //BubbleSort.bubbleSort(arr);
         //SelectionSort.selectionSort(arr);
         //InsertionSort.insertSort(arr);
-        MergeSort.mergeSort(arr); // O(n log n)
+        //MergeSort.mergeSort(arr); // O(n log n)
+        QuickSort.quickSort(arr);
 
         System.out.println("arr = " + Arrays.toString(arr));
     }
