@@ -7,7 +7,8 @@ public class SortTest {
         Integer[] arr = {4, 2, 1, 3};
 
         //BubbleSort.bubbleSort(arr);
-        SelectionSort.selectionSort(arr);
+        //SelectionSort.selectionSort(arr);
+        InsertionSort.insertSort(arr);
         System.out.println("arr = " + Arrays.toString(arr));
     }
 }
