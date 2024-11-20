@@ -19,5 +19,11 @@ public class FibonacciTest {
         end = System.currentTimeMillis();
 
         System.out.println("fibonacci2 time = " + (end - start) + "ms");
+
+        start = System.currentTimeMillis();
+        int fibonacci3 = Fibonacci.fibonacci3(44);
+        System.out.println("fibonacci3 = " + fibonacci3);
+        end = System.currentTimeMillis();
+        System.out.println("fibonacci3 time = " + (end - start) + "ms");
     }
 }
