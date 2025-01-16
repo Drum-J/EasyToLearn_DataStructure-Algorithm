@@ -29,5 +29,10 @@ public class BinarySearchTreeMain {
 
         System.out.println("==== search 1 ====");
         System.out.println(searchTree.search(1));
+
+        //삭제
+        System.out.println("==== remove 10 ====");
+        searchTree.remove(10);
+        searchTree.getRoot().inOrderTraversal();
     }
 }

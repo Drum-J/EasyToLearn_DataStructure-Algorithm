@@ -63,4 +63,88 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
         return null;
     }
+
+    public BinaryTree<T> remove(T target) {
+        BinaryTree<T> fakeParentRootNode = new BinaryTree<T>(null); // 루트 노드를 제거할 때 사용
+        BinaryTree<T> parentNode = fakeParentRootNode;
+
+        BinaryTree<T> currentNode = root;
+        BinaryTree<T> deletingNode = null; //여기에 반환 값을 담아 넘김
+
+        fakeParentRootNode.setRightSubTree(this.root);
+
+        while (currentNode != null && currentNode.getData() != target) {
+            parentNode = currentNode;
+
+            if (currentNode.getData().compareTo(target) > 0) {
+                currentNode = currentNode.getLeftSubTree();
+            } else {
+                currentNode = currentNode.getRightSubTree();
+            }
+        }
+
+        //제거 할 노드를 찾지 못한 경우
+        if (currentNode == null) {
+            return null;
+        }
+
+        deletingNode = currentNode;
+
+        //자식 노드가 하나도 없는 경우
+        if (deletingNode.getLeftSubTree() == null && deletingNode.getRightSubTree() == null) {
+            if (parentNode.getLeftSubTree() == deletingNode) {
+                parentNode.removeLeftSubTree();
+            } else {
+                parentNode.removeRightSubTree();
+            }
+        }
+
+        //자식 노드가 1개인 노드를 제거하는 경우
+        else if (deletingNode.getLeftSubTree() == null || deletingNode.getRightSubTree() == null) {
+            BinaryTree<T> deletingNodeChild;
+
+            if (deletingNode.getLeftSubTree() != null) {
+                deletingNodeChild = deletingNode.getLeftSubTree();
+            } else {
+                deletingNodeChild = deletingNode.getRightSubTree();
+            }
+
+            if (parentNode.getLeftSubTree() == deletingNode) {
+                parentNode.setLeftSubTree(deletingNodeChild);
+            } else {
+                parentNode.setRightSubTree(deletingNodeChild);
+            }
+        }
+
+        //자식 노드개 2개인 노드를 제거하는 경우
+        else {
+            BinaryTree<T> replacingNode = deletingNode.getLeftSubTree();
+            BinaryTree<T> replacingNodeParent = deletingNode;
+
+            while (replacingNode.getRightSubTree() != null) {
+                replacingNodeParent = replacingNode;
+                replacingNode = replacingNode.getRightSubTree();
+            }
+
+            T deletingNodeData = deletingNode.getData();
+            deletingNode.setData(replacingNode.getData());
+
+            if (replacingNodeParent.getLeftSubTree() == replacingNode) {
+                replacingNodeParent.setLeftSubTree(replacingNode.getLeftSubTree());
+            } else {
+                replacingNodeParent.setRightSubTree(replacingNode.getLeftSubTree());
+
+            }
+
+            deletingNode = replacingNode;
+            deletingNode.setData(deletingNodeData);
+        }
+
+        //루트를 제거할 경우
+        if (fakeParentRootNode.getRightSubTree() != root) {
+            root = fakeParentRootNode.getRightSubTree();
+        }
+
+        return deletingNode;
+    }
 }

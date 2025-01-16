@@ -31,12 +31,24 @@ public class BinaryTree<T extends Comparable<T>> {
         leftSubTree = tree;
     }
 
+    public BinaryTree<T> removeLeftSubTree() {
+        BinaryTree<T> deleteNode = leftSubTree;
+        leftSubTree = null;
+        return deleteNode;
+    }
+
     public BinaryTree<T> getRightSubTree() {
         return rightSubTree;
     }
 
     public void setRightSubTree(BinaryTree<T> tree) {
         rightSubTree = tree;
+    }
+
+    public BinaryTree<T> removeRightSubTree() {
+        BinaryTree<T> deleteNode = rightSubTree;
+        rightSubTree = null;
+        return deleteNode;
     }
 
     /**
