@@ -1,6 +1,6 @@
 package binarytree;
 
-public class BinaryTree<T> {
+public class BinaryTree<T extends Comparable<T>> {
     private T data;
     private BinaryTree<T> leftSubTree;
     private BinaryTree<T> rightSubTree;
@@ -105,5 +105,21 @@ public class BinaryTree<T> {
      */
     public void postOrderTraversal() {
         postOrderTraversal(this);
+    }
+
+    /**
+     * leftSubTree, rightSubTree 를 그대로 출력하게 되면
+     * 하위 트리까지 모두 출력 되기 때문에
+     * (left/right)SubTree.data 로 해당 트리의 자식 데이터까지만 출력
+     * 왼쪽 또는 오른쪽 자식 노드가 없을 경우를 위해 null 체크
+     * @return
+     */
+    @Override
+    public String toString() {
+        return  "BinaryTree{" +
+                "data=" + data +
+                ", leftSubTree=" + (leftSubTree != null ? leftSubTree.data : "null") +
+                ", rightSubTree=" + (rightSubTree != null ? rightSubTree.data : "null") +
+                '}';
     }
 }
