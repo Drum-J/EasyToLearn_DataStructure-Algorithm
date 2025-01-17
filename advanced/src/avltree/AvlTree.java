@@ -121,4 +121,27 @@ public class AvlTree<T extends Comparable<T>> {
 
         return unBalanceNode;
     }
+
+    //삽입 재귀사용
+    public BinaryTree<T> insert(BinaryTree<T> targetRootNode, T data) {
+        if (targetRootNode == null) {
+            targetRootNode = new BinaryTree<>(data);
+        }
+
+        //AVL 트리에 처음 삽입 하는 경우
+        if (root == null) {
+            root = targetRootNode;
+        } else if (targetRootNode.getData().compareTo(data) == 0) { // 중복인 경우
+            return targetRootNode;
+        } else if (targetRootNode.getData().compareTo(data) > 0) { // 왼쪽에 삽입
+            targetRootNode.setLeftSubTree(insert(targetRootNode.getLeftSubTree(), data));
+        } else { // 오른쪽에 삽입
+            targetRootNode.setRightSubTree(insert(targetRootNode.getRightSubTree(), data));
+        }
+
+        updateHeight(targetRootNode);
+        targetRootNode = rotation(targetRootNode, data);
+
+        return targetRootNode;
+    }
 }
