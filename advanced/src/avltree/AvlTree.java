@@ -144,4 +144,93 @@ public class AvlTree<T extends Comparable<T>> {
 
         return targetRootNode;
     }
+
+    //제거 재귀사용
+    public BinaryTree<T> remove(BinaryTree<T> targetRootNode, T data, BinaryTree<T> parentNode) {
+        // 데이터가 현재 노드 데이터보다 작고 왼쪽 자식 노드가 있을 때
+        if (targetRootNode.getData().compareTo(data) > 0 && targetRootNode.getLeftSubTree() != null) {
+            targetRootNode.setLeftSubTree(remove(targetRootNode.getLeftSubTree(), data, targetRootNode));
+        } else if (targetRootNode.getData().compareTo(data) < 0 && targetRootNode.getRightSubTree() != null) { //크고 오른쪽 자식 노드가 있을 때
+            targetRootNode.setRightSubTree(remove(targetRootNode.getRightSubTree(), data, targetRootNode));
+        } else if (targetRootNode.getData().compareTo(data) == 0) { // 같을 때 제거한다.
+            targetRootNode = removeHelper(targetRootNode, parentNode);
+
+            if (parentNode == null && targetRootNode != null) {
+                updateHeight(targetRootNode);
+
+                BinaryTree<T> unBalanceNode = getUnBalanceNode(targetRootNode, null);
+                targetRootNode = rotation(targetRootNode, unBalanceNode.getData());
+            }
+            return targetRootNode;
+        }
+
+        updateHeight(targetRootNode);
+
+        BinaryTree<T> unBalanceNode = getUnBalanceNode(targetRootNode, null);
+        targetRootNode = rotation(targetRootNode, unBalanceNode.getData());
+        return targetRootNode;
+    }
+
+    private BinaryTree<T> removeHelper(BinaryTree<T> deletingNode, BinaryTree<T> parentNode) {
+        BinaryTree<T> fakeParentRootNode = new BinaryTree<T>(null); // 루트 노드를 제거할 때 사용
+        fakeParentRootNode.setRightSubTree(this.root);
+
+        if (parentNode == null) {
+            parentNode = fakeParentRootNode;
+        }
+
+        BinaryTree<T> deletingNodeChild = null;
+
+        if (deletingNode.getLeftSubTree() == null && deletingNode.getRightSubTree() == null) {
+            if (parentNode.getLeftSubTree() == deletingNode) {
+                parentNode.removeLeftSubTree();
+            } else {
+                parentNode.removeRightSubTree();
+            }
+        }
+
+        else if (deletingNode.getLeftSubTree() == null || deletingNode.getRightSubTree() == null) {
+            if (deletingNode.getLeftSubTree() != null) {
+                deletingNodeChild = deletingNode.getLeftSubTree();
+            } else {
+                deletingNodeChild = deletingNode.getRightSubTree();
+            }
+
+            if (parentNode.getLeftSubTree() == deletingNode) {
+                parentNode.setLeftSubTree(deletingNodeChild);
+            } else {
+                parentNode.setRightSubTree(deletingNodeChild);
+            }
+        }
+
+        //자식 노드개 2개인 노드를 제거하는 경우
+        else {
+            BinaryTree<T> replacingNode = deletingNode.getLeftSubTree();
+            BinaryTree<T> replacingNodeParent = deletingNode;
+
+            while (replacingNode.getRightSubTree() != null) {
+                replacingNodeParent = replacingNode;
+                replacingNode = replacingNode.getRightSubTree();
+            }
+
+            T deletingNodeData = deletingNode.getData();
+            deletingNode.setData(replacingNode.getData());
+
+            if (replacingNodeParent.getLeftSubTree() == replacingNode) {
+                replacingNodeParent.setLeftSubTree(replacingNode.getLeftSubTree());
+            } else {
+                replacingNodeParent.setRightSubTree(replacingNode.getLeftSubTree());
+
+            }
+
+            deletingNodeChild = deletingNode;
+        }
+
+        //루트를 제거할 경우
+        if (fakeParentRootNode.getRightSubTree() != root) {
+            root = fakeParentRootNode.getRightSubTree();
+        }
+
+        return deletingNodeChild;
+    }
 }
